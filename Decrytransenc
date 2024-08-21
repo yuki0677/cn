@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_TEXT_SIZE 100
+
+// Function to perform the columnar transposition encryption
+void encrypt(char *plaintext, int columns, char *ciphertext)
+{
+int i, j, k = 0, len = strlen(plaintext);
+// Write the plaintext in rows
+for (i = 0; i < columns; i++)
+{
+for (j = i; j < len; j += columns)
+{
+ciphertext[k++] = plaintext[j];
+}
+}
+ciphertext[k] = '\0'; // Null-terminate the ciphertext
+}
+
+// Function to perform the columnar transposition decryption
+void decrypt(char *ciphertext, int columns, char *decrypted)
+{
+int i, j, k = 0, len = strlen(ciphertext);
+int rows = len / columns;
+// Write the ciphertext in columns
+for (i = 0; i < rows; i++)
+{
+for (j = i; j < len; j += rows)
+{
+decrypted[k++] = ciphertext[j];
+}
+}
+decrypted[k] = '\0'; // Null-terminate the decrypted text
+}
+
+int main()
+{
+char plaintext[MAX_TEXT_SIZE];
+char ciphertext[MAX_TEXT_SIZE];
+char decrypted[MAX_TEXT_SIZE];
+int columns;
+
+// Input the plaintext and number of columns
+printf("Enter the plaintext: ");
+fgets(plaintext, sizeof(plaintext), stdin);
+plaintext[strcspn(plaintext, "\n")] = 0; // Remove the newline character
+printf("Enter the number of columns for encryption: ");
+scanf("%d", &columns);
+
+// Encrypt the plaintext
+encrypt(plaintext, columns, ciphertext);
+printf("Encrypted text: %s\n", ciphertext);
+
+// Decrypt the ciphertext
+decrypt(ciphertext, columns, decrypted);
+printf("Decrypted text: %s\n", decrypted);
+
+return 0;
+}
