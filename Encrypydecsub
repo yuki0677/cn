@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <string.h>
+
+char* encryptString(const char* data);
+char* decryptString(const char* data);
+
+int main() {
+    char data[100];
+    char* encrypted;
+    char* decrypted;
+   
+    printf("Enter a string to encrypt: ");
+    fgets(data, sizeof(data), stdin);
+   
+    // Remove the trailing newline character
+    data[strcspn(data, "\n")] = '\0';
+   
+    encrypted = encryptString(data);
+    printf("Encrypted string: %s\n", encrypted);
+   
+    decrypted = decryptString(encrypted);
+    printf("Decrypted string: %s\n", decrypted);
+   
+    return 0;
+}
+
+char* encryptString(const char* data) {
+    static char encrypted[100];
+    int len = strlen(data);
+
+    // Perform encryption using transposition by reversing the string
+int i;
+    for ( i = 0; i < len; i++) {
+        encrypted[i] = data[len - 1 - i];
+    }
+
+    encrypted[len] = '\0';
+    return encrypted;
+}
+
+char* decryptString(const char* data) {
+    // Perform decryption by reversing the string again
+static char decrypted[100];
+int i;
+int l=strlen(data);
+for(i=0;i<l;i++){
+    decrypted[i]=data[l-1-i];
+}
+
+    return decrypted;
+}
